@@ -70,7 +70,7 @@ export default function HomePage() {
           <div className="section-head reveal">
             <div>
               <div className="num">02</div>
-              <h2 id="ph" className="h2" style={{ marginTop: "8px" }}>Eleven areas of <em>practice.</em><br />One standard of care.</h2>
+              <h2 id="ph" className="h2" style={{ marginTop: "8px" }}>Twelve areas of <em>practice.</em><br />One standard of care.</h2>
             </div>
             <div></div>
             <div className="meta">Across India · 2026: present</div>
@@ -183,22 +183,22 @@ export default function HomePage() {
             <article className="step">
               <div className="roman">I</div>
               <h3 className="h3"><em>Confidential</em><br />consultation</h3>
-              <p className="body" style={{ maxWidth: "30ch" }}>A no-obligation conversation to understand the matter, the parties, and the relief sought.</p>
+              <p className="body">A no-obligation conversation to understand the matter, the parties, and the relief sought.</p>
             </article>
             <article className="step">
               <div className="roman">II</div>
               <h3 className="h3"><em>Strategy</em><br />&amp; opinion</h3>
-              <p className="body" style={{ maxWidth: "30ch" }}>Written legal opinion, risk assessment, and a costed plan of action drawn from precedent.</p>
+              <p className="body">Written legal opinion, risk assessment, and a costed plan of action drawn from precedent.</p>
             </article>
             <article className="step">
               <div className="roman">III</div>
               <h3 className="h3"><em>Representation</em><br />&amp; pleadings</h3>
-              <p className="body" style={{ maxWidth: "30ch" }}>Drafting, filing, and appearance before courts and tribunals: with regular client briefings.</p>
+              <p className="body">Drafting, filing, and appearance before courts and tribunals: with regular client briefings.</p>
             </article>
             <article className="step">
               <div className="roman">IV</div>
               <h3 className="h3"><em>Resolution</em><br />&amp; counsel</h3>
-              <p className="body" style={{ maxWidth: "30ch" }}>Decree, settlement, or award: followed by post-judgment execution and continuing advice.</p>
+              <p className="body">Decree, settlement, or award: followed by post-judgment execution and continuing advice.</p>
             </article>
           </div>
         </div>
@@ -397,18 +397,28 @@ export default function HomePage() {
         .process-section{background:var(--obsidian);position:relative;overflow:hidden}
         .proc-glow{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 80% 20%,rgba(184,149,74,.10),transparent 60%),radial-gradient(ellipse 40% 50% at 10% 90%,rgba(122,31,31,.10),transparent 60%)}
         .steps{display:grid;grid-template-columns:repeat(4,1fr);position:relative}
-        .step{padding:32px 36px 32px 0;border-right:1px solid var(--rule);position:relative}
+        .step{padding:32px 28px 36px 0;border-right:1px solid var(--rule);position:relative}
         .step:last-child{border-right:0}
         .roman{font-family:var(--serif);font-style:italic;font-size:64px;font-weight:300;color:var(--gold);line-height:1}
         .step .h3{margin-top:24px;color:var(--bone)}
         .step .h3 em{color:var(--gold-soft)}
-        .step .body{margin-top:14px;color:var(--bone-2)}
-        @media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}.step:nth-child(2){border-right:0}.step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--rule);padding-bottom:32px}}
-        @media (max-width:540px){.steps{grid-template-columns:1fr}.step{border-right:0!important;border-bottom:1px solid var(--rule);padding:28px 0}}
+        .step .body{margin-top:14px;color:var(--bone-2);font-family:var(--sans);font-size:14.5px;line-height:1.7}
+        @media (max-width:900px){
+          .steps{grid-template-columns:repeat(2,1fr)}
+          .step{padding:28px 24px 28px 0}
+          .step:nth-child(2n){border-right:0}
+          .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--rule)}
+        }
+        @media (max-width:540px){
+          .steps{grid-template-columns:1fr}
+          .step{border-right:0!important;border-bottom:1px solid var(--rule);padding:24px 0}
+          .step:last-child{border-bottom:0}
+          .roman{font-size:48px}
+        }
 
         /* PRINCIPAL */
         .principal-section{background:var(--paper)}
-        .p-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:96px;align-items:start}
+        .p-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
         .p-portrait{position:relative;aspect-ratio:4/5;background:var(--bone-2);border:1px solid var(--rule-light);overflow:hidden}
         .p-portrait .ph{position:absolute;inset:0;background:linear-gradient(135deg,rgba(184,149,74,.06),rgba(122,31,31,.04)),repeating-linear-gradient(45deg,transparent 0 14px,rgba(20,18,12,.05) 14px 15px);display:grid;place-items:center}
         .ph-inner{text-align:center}
@@ -426,7 +436,16 @@ export default function HomePage() {
         .cred .k{font-family:var(--sans);font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:var(--mute);font-weight:600}
         .cred .v{font-family:var(--serif);font-size:20px;color:var(--ink);margin-top:6px;line-height:1.3}
         .cred .v em{font-style:italic;color:var(--oxblood)}
-        @media (max-width:900px){.p-grid{grid-template-columns:1fr;gap:60px}}
+        @media (max-width:900px){
+          .p-grid{grid-template-columns:1fr;gap:48px}
+          .p-portrait{max-width:420px}
+          .p-quote{font-size:21px}
+          .creds{grid-template-columns:1fr 1fr}
+        }
+        @media (max-width:540px){
+          .creds{grid-template-columns:1fr;gap:16px}
+          .p-quote{font-size:18px;padding-left:16px}
+        }
 
         /* INSIGHTS */
         .insights-section{background:var(--obsidian)}
@@ -447,7 +466,30 @@ export default function HomePage() {
         .c-v em{font-style:italic;color:var(--gold-soft)}
         .c-card .btn{background:var(--bone);color:var(--obsidian);border-color:var(--bone)}
         .c-card .btn:hover{background:var(--gold);border-color:var(--gold)}
-        @media (max-width:900px){.c-grid{grid-template-columns:1fr;gap:48px}}
+        @media (max-width:900px){
+          .c-grid{grid-template-columns:1fr;gap:0}
+          .c-card{order:2}
+          .c-right{order:1;padding-bottom:48px}
+        }
+        @media (max-width:540px){
+          .c-card{padding:36px 24px}
+          .c-v{font-size:18px}
+        }
+
+        /* MOBILE MISC */
+        @media (max-width:768px){
+          .ped-strip{display:none}
+          .pg-header .meta{display:none}
+          .hero-simple__h{font-size:clamp(40px,12vw,72px)}
+          .a-t{font-size:24px}
+          .area{min-height:200px;padding:28px 20px 24px}
+        }
+        @media (max-width:480px){
+          .hero-simple__cta{flex-direction:column;align-items:stretch}
+          .hero-simple__cta .btn{text-align:center;justify-content:center}
+          .ped-grid{grid-template-columns:1fr}
+          .ped-cell{border-right:0!important;border-bottom:1px solid var(--rule-light)}
+        }
       `}</style>
     </>
   );
