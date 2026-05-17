@@ -57,15 +57,38 @@ function NavThemeToggle() {
   );
 }
 
+const drawerLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Practice", href: "/practice-areas" },
+  { label: "Chambers", href: "/team" },
+  { label: "Insights", href: "/insights" },
+  { label: "Vision & Mission", href: "/vision-mission" },
+  { label: "Resources", href: "/resources" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
+];
+
 export function SiteHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [solid, setSolid] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setSolid(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [drawerOpen]);
 
   return (
     <>
@@ -93,27 +116,46 @@ export function SiteHeader() {
             aria-label="Open menu"
             aria-expanded={drawerOpen}
             onClick={() => setDrawerOpen(true)}
+            type="button"
           >
             <span /><span /><span />
           </button>
         </div>
       </header>
 
-      {/* Mobile drawer */}
-      <div
-        className={`nav-drawer${drawerOpen ? " is-open" : ""}`}
-        aria-hidden={!drawerOpen}
-      >
-        <button className="close" aria-label="Close menu" onClick={() => setDrawerOpen(false)}>×</button>
-        {navLinks.map((item) => (
-          <Link key={item.href} href={item.href} onClick={() => setDrawerOpen(false)}>
-            {item.label}
-          </Link>
-        ))}
-        <Link href="/vision-mission" onClick={() => setDrawerOpen(false)}>Vision &amp; Mission</Link>
-        <Link href="/resources" onClick={() => setDrawerOpen(false)}>Resources</Link>
-        <Link href="/careers" onClick={() => setDrawerOpen(false)}>Careers</Link>
-      </div>
+      {/* Mobile drawer — only render after mount to avoid SSR flash */}
+      {mounted && (
+        <>
+          {drawerOpen && (
+            <div
+              className="nav-drawer-backdrop"
+              onClick={() => setDrawerOpen(false)}
+              aria-hidden="true"
+            />
+          )}
+          <div
+            className={`nav-drawer${drawerOpen ? " is-open" : ""}`}
+            aria-hidden={!drawerOpen}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+          >
+            <button
+              className="close"
+              aria-label="Close menu"
+              onClick={() => setDrawerOpen(false)}
+              type="button"
+            >
+              ×
+            </button>
+            {drawerLinks.map((item) => (
+              <Link key={item.href} href={item.href} onClick={() => setDrawerOpen(false)}>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
 
       <style>{`
         .nav__brand { display: flex; align-items: center; gap: 14px; }
@@ -139,16 +181,17 @@ export function SiteHeader() {
         .nav__cta:hover { color: var(--gold); border-color: var(--gold); }
         html[data-theme="light"] .nav__cta { color: var(--ink); border-bottom-color: var(--ink); }
         html[data-theme="light"] .nav__cta:hover { color: var(--oxblood); border-color: var(--oxblood); }
-        .nav__hamburger { display: none; width: 34px; height: 34px; border: 1px solid var(--rule-light); align-items: center; justify-content: center; flex-direction: column; gap: 5px; }
-        .nav__hamburger span { display: block; width: 18px; height: 1px; background: var(--bone); }
+        .nav__hamburger { display: none; width: 44px; height: 44px; border: 1px solid var(--rule-light); align-items: center; justify-content: center; flex-direction: column; gap: 5px; cursor: pointer; position: relative; z-index: 52; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .nav__hamburger span { display: block; width: 18px; height: 1px; background: var(--bone); pointer-events: none; }
         html[data-theme="light"] .nav__hamburger { border-color: var(--ink); }
         html[data-theme="light"] .nav__hamburger span { background: var(--ink); }
         @media (max-width: 1024px) { .nav__links { display: none; } .nav__cta { display: none; } .nav__hamburger { display: flex; } }
-        .nav-drawer { position: fixed; inset: 0; background: var(--obsidian); z-index: 55; display: flex; flex-direction: column; padding: 88px var(--pad-x) 40px; transform: translateY(-100%); transition: transform .55s cubic-bezier(.7,0,.2,1); }
-        .nav-drawer.is-open { transform: translateY(0); }
+        .nav-drawer-backdrop { position: fixed; inset: 0; z-index: 58; background: transparent; }
+        .nav-drawer { position: fixed; inset: 0; background: var(--obsidian); z-index: 59; display: flex; flex-direction: column; padding: 88px var(--pad-x) 40px; transform: translateY(-100%); transition: transform .55s cubic-bezier(.7,0,.2,1); pointer-events: none; }
+        .nav-drawer.is-open { transform: translateY(0); pointer-events: auto; }
         .nav-drawer a { font-family: 'Newsreader', Georgia, serif; font-size: 42px; font-weight: 300; color: var(--bone); padding: 14px 0; border-bottom: 1px solid var(--rule); letter-spacing: -.01em; }
         .nav-drawer a:hover { color: var(--gold); font-style: italic; }
-        .nav-drawer .close { position: absolute; top: 24px; right: var(--pad-x); font-size: 32px; color: var(--bone); font-family: 'Newsreader', serif; }
+        .nav-drawer .close { position: absolute; top: 24px; right: var(--pad-x); font-size: 32px; color: var(--bone); font-family: 'Newsreader', serif; cursor: pointer; }
         html[data-theme="light"] .nav-drawer { background: var(--paper); }
         html[data-theme="light"] .nav-drawer a { color: var(--ink); border-bottom-color: rgba(58,53,43,.18); }
         html[data-theme="light"] .nav-drawer a:hover { color: var(--oxblood); }
